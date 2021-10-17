@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hometask2/editcontact.dart';
 import 'contact.dart';
 import 'package:favorite_button/favorite_button.dart';
 
@@ -12,11 +13,11 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   //bool fav = false;
-  List<Contact> contacts = [Contact("assets/images/blove.jpeg","Brandi","Love","Actress","+380688300271",true),
-    Contact("assets/images/clove.jpeg","Cortney","Zoe","Musician","+380677448890",false),
-  Contact("assets/images/nikolaev.jpeg","Igor","Nikolaev","Musician","+380679969128",false),
-    Contact("assets/images/cruz.jpeg","Monica","Cruz","Actress","+380679969187",false),
-    Contact("assets/images/cobain.jpeg","Kurt","Cobain","Musician","+380679979128",true),];
+  List<Contact> contacts = [Contact("assets/images/blove.jpeg","Brandi","Love","Actress","+380688300271",true," "),
+    Contact("assets/images/clove.jpeg","Cortney","Zoe","Musician","+380677448890",false," "),
+  Contact("assets/images/nikolaev.jpeg","Igor","Nikolaev","Musician","+380679969128",false," "),
+    Contact("assets/images/cruz.jpeg","Monica","Cruz","Actress","+380679969187",false," "),
+    Contact("assets/images/cobain.jpeg","Kurt","Cobain","Musician","+380679979128",true," "),];
   List<String> letters = [];
 
   Widget letter (Contact contacts,Contact contact2){
@@ -63,7 +64,12 @@ class HomePageState extends State<HomePage> {
               ),
               title:  Container(
                 child: Row( children: [
-                  CircleAvatar(child: Image.asset(contacts[index].icon!), radius: 40,),
+                  ClipOval(
+                      child:InkWell(onTap: (){
+                        _awaitReturnValueFromSecondScreen(context,index);
+                        },
+                          child: CircleAvatar(child: Image.asset(contacts[index].icon!),
+                            radius: 40,))),
                   Column(children : [
                     Text("${contacts[index].name!} ${contacts[index].secondname!}"),
                     Text(contacts[index].companyname!),
@@ -78,6 +84,19 @@ class HomePageState extends State<HomePage> {
     ),
   );
   }
+  void _awaitReturnValueFromSecondScreen(BuildContext context,int index) async {
+    Editcontact.contact = contacts[index];
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Editcontact(),
+        ));
 
+    setState(() {
+      contacts[index] = result;
+    });
+  }
 }
+
+
 
