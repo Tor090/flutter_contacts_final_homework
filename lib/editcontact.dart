@@ -121,7 +121,8 @@ class EditcontactState extends State<Editcontact> {
         leading: IconButton(
         icon: Icon(Icons.backspace),
     onPressed: () {
-    Navigator.of(context).pop();
+          //Navigator.of(context).pop();
+      _sendDataBack(context);
     },
     ),
       title: Text("Edit"),
